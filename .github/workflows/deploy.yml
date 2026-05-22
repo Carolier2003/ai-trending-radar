@@ -2,8 +2,8 @@ name: Deploy AI Trending Radar
 
 on:
   schedule:
-    # 每天 UTC 8:00（北京时间 16:00）自动运行
-    - cron: "0 8 * * *"
+    # 每天 UTC 12:00（北京时间 20:00）自动运行
+    - cron: "0 12 * * *"
   workflow_dispatch:   # 允许手动触发
   push:
     branches: [main, master]
