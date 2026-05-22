@@ -1,0 +1,209 @@
+{
+  "affaan-m/ECC": {
+    "2026-05-22": 188491
+  },
+  "NousResearch/hermes-agent": {
+    "2026-05-22": 162913
+  },
+  "langgenius/dify": {
+    "2026-05-22": 142267
+  },
+  "langchain-ai/langchain": {
+    "2026-05-22": 137406
+  },
+  "firecrawl/firecrawl": {
+    "2026-05-22": 123020
+  },
+  "Shubhamsaboo/awesome-llm-apps": {
+    "2026-05-22": 111432
+  },
+  "browser-use/browser-use": {
+    "2026-05-22": 95114
+  },
+  "infiniflow/ragflow": {
+    "2026-05-22": 81047
+  },
+  "TauricResearch/TradingAgents": {
+    "2026-05-22": 78554
+  },
+  "OpenHands/OpenHands": {
+    "2026-05-22": 74527
+  },
+  "hiyouga/LlamaFactory": {
+    "2026-05-22": 71510
+  },
+  "bytedance/deer-flow": {
+    "2026-05-22": 69138
+  },
+  "x1xhlol/system-prompts-and-models-of-ai-tools": {
+    "2026-05-22": 138077
+  },
+  "thedotmack/claude-mem": {
+    "2026-05-22": 77469
+  },
+  "shanraisshan/claude-code-best-practice": {
+    "2026-05-22": 54427
+  },
+  "ruvnet/ruflo": {
+    "2026-05-22": 54134
+  },
+  "danny-avila/LibreChat": {
+    "2026-05-22": 37333
+  },
+  "coreyhaines31/marketingskills": {
+    "2026-05-22": 30038
+  },
+  "iOfficeAI/AionUi": {
+    "2026-05-22": 26175
+  },
+  "oraios/serena": {
+    "2026-05-22": 24510
+  },
+  "Donchitos/Claude-Code-Game-Studios": {
+    "2026-05-22": 19630
+  },
+  "Kilo-Org/kilocode": {
+    "2026-05-22": 19495
+  },
+  "Leonxlnx/taste-skill": {
+    "2026-05-22": 18618
+  },
+  "rohitg00/agentmemory": {
+    "2026-05-22": 16329
+  },
+  "f/prompts.chat": {
+    "2026-05-22": 162678
+  },
+  "nomic-ai/gpt4all": {
+    "2026-05-22": 77362
+  },
+  "unclecode/crawl4ai": {
+    "2026-05-22": 66080
+  },
+  "MemPalace/mempalace": {
+    "2026-05-22": 52656
+  },
+  "oobabooga/textgen": {
+    "2026-05-22": 47199
+  },
+  "mudler/LocalAI": {
+    "2026-05-22": 46415
+  },
+  "aaif-goose/goose": {
+    "2026-05-22": 45694
+  },
+  "HKUDS/nanobot": {
+    "2026-05-22": 42998
+  },
+  "janhq/jan": {
+    "2026-05-22": 42625
+  },
+  "continuedev/continue": {
+    "2026-05-22": 33323
+  },
+  "open-webui/open-webui": {
+    "2026-05-22": 138242
+  },
+  "PaddlePaddle/PaddleOCR": {
+    "2026-05-22": 78363
+  },
+  "dair-ai/Prompt-Engineering-Guide": {
+    "2026-05-22": 74865
+  },
+  "Mintplex-Labs/anything-llm": {
+    "2026-05-22": 60467
+  },
+  "pathwaycom/llm-app": {
+    "2026-05-22": 59640
+  },
+  "mem0ai/mem0": {
+    "2026-05-22": 56449
+  },
+  "ollama/ollama": {
+    "2026-05-22": 172024
+  },
+  "huggingface/transformers": {
+    "2026-05-22": 160876
+  },
+  "vllm-project/vllm": {
+    "2026-05-22": 80738
+  },
+  "unslothai/unsloth": {
+    "2026-05-22": 64975
+  },
+  "zhayujie/CowAgent": {
+    "2026-05-22": 44720
+  },
+  "labring/FastGPT": {
+    "2026-05-22": 28123
+  },
+  "sgl-project/sglang": {
+    "2026-05-22": 28119
+  },
+  "dyad-sh/dyad": {
+    "2026-05-22": 20405
+  },
+  "decolua/9router": {
+    "2026-05-22": 13459
+  },
+  "jnMetaCode/agency-agents-zh": {
+    "2026-05-22": 12595
+  },
+  "tailcallhq/forgecode": {
+    "2026-05-22": 7341
+  },
+  "FoundationAgents/MetaGPT": {
+    "2026-05-22": 68216
+  },
+  "microsoft/autogen": {
+    "2026-05-22": 58296
+  },
+  "crewAIInc/crewAI": {
+    "2026-05-22": 51975
+  },
+  "AstrBotDevs/AstrBot": {
+    "2026-05-22": 32855
+  },
+  "langchain-ai/langgraph": {
+    "2026-05-22": 32704
+  },
+  "openai/openai-agents-python": {
+    "2026-05-22": 26578
+  },
+  "deepset-ai/haystack": {
+    "2026-05-22": 25342
+  },
+  "zai-org/Open-AutoGLM": {
+    "2026-05-22": 25340
+  },
+  "mastra-ai/mastra": {
+    "2026-05-22": 24208
+  },
+  "humanlayer/12-factor-agents": {
+    "2026-05-22": 21714
+  },
+  "heygen-com/hyperframes": {
+    "2026-05-22": 20477
+  },
+  "msitarzewski/agency-agents": {
+    "2026-05-22": 104177
+  },
+  "karpathy/autoresearch": {
+    "2026-05-22": 82762
+  },
+  "code-yeongyu/oh-my-openagent": {
+    "2026-05-22": 59025
+  },
+  "earendil-works/pi": {
+    "2026-05-22": 52907
+  },
+  "addyosmani/agent-skills": {
+    "2026-05-22": 44853
+  },
+  "vercel-labs/agent-browser": {
+    "2026-05-22": 33992
+  },
+  "github/awesome-copilot": {
+    "2026-05-22": 33630
+  }
+}
