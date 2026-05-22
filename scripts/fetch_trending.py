@@ -135,21 +135,32 @@ def save_cache(cache):
 
 
 def compute_growth(repo_name, current_stars, cache):
-    """Record today's snapshot, compute 7d/30d growth from cache."""
+    """Record today's snapshot, compute 7d/30d growth from cache.
+
+    Uses the closest available data point within a reasonable window,
+    so that growth estimates appear even with partially accumulated cache.
+    """
     now = datetime.utcnow()
     history = cache.get(repo_name, {})
     history[TODAY] = current_stars
 
-    stars_7d, stars_30d = 0, 0
-    for date_str, val in sorted(history.items(), reverse=True):
+    # Find closest historical points
+    best_7d = (None, 999)
+    best_30d = (None, 999)
+    for date_str, val in history.items():
         dt = datetime.strptime(date_str, "%Y-%m-%d")
         delta = (now - dt).days
-        if 6 <= delta <= 8 and stars_7d == 0:
-            stars_7d = max(0, current_stars - val)
-        if 28 <= delta <= 32 and stars_30d == 0:
-            stars_30d = max(0, current_stars - val)
-        if stars_7d and stars_30d:
-            break
+        if 3 <= delta <= 14:
+            dist = abs(delta - 7)
+            if dist < best_7d[1]:
+                best_7d = (val, dist)
+        if 14 <= delta <= 50:
+            dist = abs(delta - 30)
+            if dist < best_30d[1]:
+                best_30d = (val, dist)
+
+    stars_7d = max(0, current_stars - best_7d[0]) if best_7d[0] is not None else 0
+    stars_30d = max(0, current_stars - best_30d[0]) if best_30d[0] is not None else 0
 
     cache[repo_name] = history
     return stars_7d, stars_30d
@@ -163,13 +174,11 @@ def classify(repo):
     s30 = repo.get("stars_30d", 0)
     total = repo.get("total_stars", 0)
 
-    if total >= 70000 and s7 <= 8000:
-        return "⭐ 经典热门", "classic"
-    if s7 >= 8000:
+    if s7 >= 6000 or s30 >= 20000:
         return "🔥 本周飙升", "surging"
-    if s7 >= 3000 or s30 >= 10000:
+    if s7 >= 1500 or s30 >= 6000:
         return "📈 稳步上升", "rising"
-    if total < 20000 and s7 >= 500:
+    if s7 >= 300 and total < 30000:
         return "🌱 活跃新星", "newstar"
     if total >= 50000:
         return "⭐ 经典热门", "classic"
