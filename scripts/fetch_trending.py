@@ -31,12 +31,15 @@ TOKEN = os.environ.get("GITHUB_TOKEN", "")
 # ── Queries ─────────────────────────────────────────────
 # Each (query, qualifier) pair; qualifier appends sort/order etc.
 AI_QUERIES = [
-    ("topic:llm+topic:agent", "stars"),
-    ("topic:llm+topic:rag", "stars"),
-    ("topic:ai+topic:coding-agent", "stars"),
-    ("topic:ai+topic:multi-agent", "stars"),
-    ("topic:claude+topic:skills", "stars"),
-    ("topic:ai+topic:llm+topic:open-source", "stars"),
+    # Broad keyword searches instead of restrictive topic: filters
+    ("llm agent stars:>1000", "stars"),
+    ("ai coding agent claude stars:>1000", "stars"),
+    ("open source llm stars:>5000", "stars"),
+    ("rag ai stars:>1000", "stars"),
+    ("deepseek qwen llm stars:>1000", "stars"),
+    ("ai agent framework stars:>2000", "stars"),
+    # New / fast-growing repos
+    ("ai agent created:>2025-06-01 stars:>500", "stars"),
 ]
 
 # Repos we explicitly ignore (too generic / not AI-trending news)
