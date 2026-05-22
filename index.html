@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub AI 热门项目趋势</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --cream:#f9f6f0;--cream-deep:#f0ebe0;--paper:#fefdfb;
+  --ink:#1f1a12;--ink-soft:#5c5346;--ink-muted:#948b7e;--line:#e8e2d4;
+  --amber:#b8602a;--amber-light:#fdf3e7;--amber-glow:rgba(184,96,42,.08);
+  --sage:#5d7a5e;--sage-light:#edf5ed;
+  --coral:#c44536;--coral-light:#fef3f1;
+  --slate:#6b7b8d;--slate-light:#f0f4f7;
+  --radius-sm:6px;--radius-md:12px;--radius-lg:20px;
+  --shadow-sm:0 1px 3px rgba(31,26,18,.06),0 1px 2px rgba(31,26,18,.04);
+  --shadow-md:0 4px 16px rgba(31,26,18,.06),0 2px 6px rgba(31,26,18,.04);
+  --shadow-lg:0 8px 32px rgba(31,26,18,.08),0 3px 10px rgba(31,26,18,.05);
+  --ease-out-expo:cubic-bezier(.16,1,.3,1);
+}
+
+html{scroll-behavior:smooth;font-size:17px}
+
+body{
+  font-family:Georgia,"Times New Roman",ui-serif,serif;
+  background:var(--cream);color:var(--ink);line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 30% -10%,rgba(184,96,42,.03) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 90%,rgba(93,122,94,.03) 0%,transparent 70%);
+}
+
+/* ── Hero ── */
+.hero{
+  padding:clamp(48px,8vw,96px) clamp(20px,5vw,80px) clamp(36px,6vw,64px);
+  text-align:center;position:relative;border-bottom:1px solid var(--line);
+}
+.hero::after{
+  content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);
+  width:clamp(60px,12vw,120px);height:2px;background:var(--amber);border-radius:1px;
+}
+.hero-label{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:clamp(12px,2vw,20px);
+}
+.hero h1{
+  font-size:clamp(2.2rem,6vw,4rem);font-weight:400;line-height:1.15;
+  letter-spacing:-.02em;color:var(--ink);margin-bottom:clamp(10px,1.5vw,16px);
+}
+.hero h1 em{font-style:italic;color:var(--amber)}
+.hero .subtitle{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:1rem;color:var(--ink-soft);max-width:540px;margin:0 auto clamp(20px,3vw,28px);
+}
+.date-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.78rem;font-weight:500;color:var(--ink-soft);
+  padding:6px 18px;border-radius:100px;
+  background:var(--paper);border:1px solid var(--line);
+}
+.date-badge::before{
+  content:'';width:7px;height:7px;border-radius:50%;background:var(--sage);
+  box-shadow:0 0 6px rgba(93,122,94,.4);
+}
+
+/* ── Stats Strip ── */
+.stats-strip{
+  display:flex;gap:1px;background:var(--line);
+  max-width:clamp(800px,85vw,1100px);margin:clamp(28px,4vw,44px) auto 0;
+  padding:0 clamp(16px,3vw,32px);border-radius:var(--radius-md);overflow:hidden;
+}
+.stat-item{
+  flex:1;background:var(--paper);padding:clamp(18px,3vw,28px) clamp(14px,2vw,20px);
+  text-align:center;transition:background .3s var(--ease-out-expo);
+  cursor:default;position:relative;
+}
+.stat-item:hover{background:var(--amber-light)}
+.stat-item .stat-num{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:400;line-height:1.1;
+}
+.stat-item:nth-child(1) .stat-num{color:var(--ink)}
+.stat-item:nth-child(2) .stat-num{color:var(--amber)}
+.stat-item:nth-child(3) .stat-num{color:var(--coral)}
+.stat-item:nth-child(4) .stat-num{color:var(--sage)}
+.stat-item .stat-lbl{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.7rem;color:var(--ink-muted);margin-top:4px;letter-spacing:.04em;
+}
+
+/* ── Controls ── */
+.controls-bar{
+  max-width:clamp(800px,85vw,1100px);margin:clamp(24px,3vw,36px) auto 0;
+  padding:0 clamp(16px,3vw,32px);
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+}
+.search-wrap{flex:1;min-width:200px;position:relative;}
+.search-wrap::before{
+  content:'⌕';position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-size:1rem;color:var(--ink-muted);pointer-events:none;font-family:serif;
+}
+.search-input{
+  width:100%;padding:11px 16px 11px 38px;border-radius:100px;
+  border:1px solid var(--line);background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.85rem;outline:none;transition:border-color .25s,box-shadow .25s;
+}
+.search-input::placeholder{color:var(--ink-muted)}
+.search-input:focus{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-glow)}
+.ctrl-select{
+  padding:11px 36px 11px 14px;border-radius:100px;
+  border:1px solid var(--line);background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.82rem;cursor:pointer;outline:none;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%23948b7e' stroke-width='1.5' d='m1 1 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  transition:border-color .25s,box-shadow .25s;
+}
+.ctrl-select:focus{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-glow)}
+
+/* ── Grid ── */
+.grid{
+  max-width:clamp(800px,85vw,1100px);margin:clamp(28px,4vw,44px) auto clamp(64px,8vw,96px);
+  padding:0 clamp(16px,3vw,32px);
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));
+  gap:clamp(14px,2vw,22px);
+}
+
+/* ── Card ── */
+.card{
+  background:var(--paper);border-radius:var(--radius-md);
+  padding:clamp(20px,3vw,28px);
+  box-shadow:var(--shadow-sm);
+  transition:box-shadow .35s var(--ease-out-expo),transform .35s var(--ease-out-expo);
+  cursor:default;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.card::before{
+  content:'';position:absolute;inset:0;border-radius:var(--radius-md);
+  border:1px solid var(--line);pointer-events:none;
+}
+.card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.card.classic:hover{box-shadow:0 8px 32px rgba(184,96,42,.12),0 3px 10px rgba(184,96,42,.06)}
+.card.surging:hover{box-shadow:0 8px 32px rgba(196,67,54,.12),0 3px 10px rgba(196,67,54,.06)}
+.card.rising:hover{box-shadow:0 8px 32px rgba(107,123,141,.12),0 3px 10px rgba(107,123,141,.06)}
+.card.newstar:hover{box-shadow:0 8px 32px rgba(93,122,94,.12),0 3px 10px rgba(93,122,94,.06)}
+.card::after{
+  content:'';position:absolute;top:0;left:0;width:100%;height:3px;
+  transform:scaleX(1);transform-origin:left;
+  transition:transform .35s var(--ease-out-expo);
+}
+.card.classic::after{background:var(--amber)}
+.card.surging::after{background:var(--coral)}
+.card.rising::after{background:var(--slate)}
+.card.newstar::after{background:var(--sage)}
+.card:hover::after{transform:scaleX(1.03)}
+
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.card-name{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.95rem;font-weight:650;line-height:1.35;color:var(--ink);word-break:break-word;
+}
+.card-name a{color:inherit;text-decoration:none;transition:color .2s}
+.card-name a:hover{color:var(--amber)}
+.card-tag{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.65rem;font-weight:600;padding:4px 12px;border-radius:100px;
+  white-space:nowrap;letter-spacing:.03em;flex-shrink:0;
+}
+.tag-classic{background:var(--amber-light);color:var(--amber)}
+.tag-surging{background:var(--coral-light);color:var(--coral)}
+.tag-rising{background:var(--slate-light);color:var(--slate)}
+.tag-newstar{background:var(--sage-light);color:var(--sage)}
+
+.card-desc{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.8rem;color:var(--ink-soft);line-height:1.55;margin-bottom:16px;flex:1;
+}
+
+.card-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:6px;
+  margin-bottom:14px;padding:14px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.card-stats .st{text-align:center}
+.card-stats .st-val{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1.15rem;font-weight:400;color:var(--ink);line-height:1.1;
+}
+.card-stats .st-lbl{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.62rem;color:var(--ink-muted);margin-top:2px;letter-spacing:.03em;text-transform:uppercase;
+}
+.growth-sage{color:var(--sage)!important}
+.growth-amber{color:var(--amber)!important}
+.growth-coral{color:var(--coral)!important}
+
+.card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.lang-dot{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.72rem;color:var(--ink-soft);
+}
+.lang-dot::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--amber);opacity:.7;}
+.card-meta .commit{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.7rem;color:var(--ink-muted);
+}
+
+.card-topics{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.topic{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.66rem;padding:3px 9px;border-radius:100px;
+  background:var(--cream-deep);color:var(--ink-soft);
+  transition:background .2s,color .2s;
+}
+.topic:hover{background:var(--amber);color:#fff}
+
+.card-link{
+  font-family:"SF Mono","Fira Code","Cascadia Code",monospace;
+  font-size:.68rem;color:var(--ink-muted);word-break:break-all;
+  text-decoration:none;transition:color .2s;
+}
+.card-link:hover{color:var(--amber)}
+
+/* ── Loading & Error ── */
+.loading,.error-state{
+  grid-column:1/-1;text-align:center;padding:80px 20px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink-muted);font-size:.95rem;
+}
+.no-results{
+  grid-column:1/-1;text-align:center;padding:80px 20px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink-muted);font-size:.95rem;
+}
+
+/* ── Footer ── */
+.footer{
+  text-align:center;padding:32px 20px 48px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.72rem;color:var(--ink-muted);
+}
+.footer a{color:var(--amber);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .hero h1{font-size:clamp(1.6rem,7vw,2.2rem)}
+  .grid{grid-template-columns:1fr}
+  .stats-strip{flex-wrap:wrap;gap:0}.stat-item{flex:1 1 50%}
+  .controls-bar{flex-direction:column;align-items:stretch}.ctrl-select{width:100%}
+  .card-stats{grid-template-columns:repeat(2,1fr);gap:8px}
+}
+@media(max-width:480px){
+  .card{padding:18px}.card-stats{gap:4px}.stat-item{flex:1 1 100%}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-label">GitHub Trends</div>
+  <h1>AI 开源项目 <em>趋势观察</em></h1>
+  <p class="subtitle">每日追踪 GitHub 上最受关注的 AI 开源项目</p>
+  <span class="date-badge" id="dateBadge">—</span>
+</header>
+
+<section class="stats-strip">
+  <div class="stat-item"><div class="stat-num" id="statTotal">—</div><div class="stat-lbl">收录项目</div></div>
+  <div class="stat-item"><div class="stat-num" id="statClassic">—</div><div class="stat-lbl">经典热门</div></div>
+  <div class="stat-item"><div class="stat-num" id="statSurging">—</div><div class="stat-lbl">本周飙升</div></div>
+  <div class="stat-item"><div class="stat-num" id="statNewstar">—</div><div class="stat-lbl">活跃新星</div></div>
+</section>
+
+<div class="controls-bar">
+  <div class="search-wrap">
+    <input type="text" class="search-input" placeholder="搜索项目名称、描述或主题 ..." id="searchInput" oninput="filterProjects()">
+  </div>
+  <select class="ctrl-select" id="sortSelect" onchange="filterProjects()">
+    <option value="default">默认排序</option>
+    <option value="stars">总 Star 数 ↓</option>
+    <option value="stars_7d">本周增量 ↓</option>
+    <option value="stars_30d">本月增量 ↓</option>
+    <option value="last_commit">最近更新 ↓</option>
+  </select>
+  <select class="ctrl-select" id="filterLang" onchange="filterProjects()">
+    <option value="">全部语言</option>
+  </select>
+  <select class="ctrl-select" id="filterTag" onchange="filterProjects()">
+    <option value="">全部趋势标签</option>
+  </select>
+</div>
+
+<div class="grid" id="projectGrid">
+  <div class="loading">加载数据中 ...</div>
+</div>
+
+<footer class="footer">
+  Data sourced from <a href="https://github.com" target="_blank" rel="noopener">GitHub API</a> &middot;
+  <a href="https://github.com/carol/ai-trending-radar" target="_blank" rel="noopener">ai-trending-radar</a>
+</footer>
+
+<script>
+let projects = [];
+
+function formatNum(n){if(n>=1000)return (n/1000).toFixed(1)+'k';return n.toString()}
+
+function setDateBadge(){
+  const d=new Date();
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+  document.getElementById('dateBadge').textContent=y+' · '+m+' · '+day;
+}
+
+function buildLangOptions(){
+  const langs=[...new Set(projects.map(p=>p.language).filter(Boolean))].sort();
+  const sel=document.getElementById('filterLang');
+  langs.forEach(l=>{const o=document.createElement('option');o.value=l;o.textContent=l;sel.appendChild(o)});
+}
+
+function createCard(p){
+  const g7=p.stars_7d||0;
+  let cls7='growth-sage';
+  if(g7>8000)cls7='growth-coral';
+  else if(g7>3000)cls7='growth-amber';
+  const topics=(p.topics||[]).slice(0,8);
+  return `<div class="card ${p.tag_class||''}">
+    <div class="card-header">
+      <span class="card-name"><a href="${p.url}" target="_blank" rel="noopener">${p.name}</a></span>
+      <span class="card-tag tag-${p.tag_class||''}">${p.tag||''}</span>
+    </div>
+    <p class="card-desc">${p.description||''}</p>
+    <div class="card-stats">
+      <div class="st"><div class="st-val">${formatNum(p.total_stars||0)}</div><div class="st-lbl">Total ⭐</div></div>
+      <div class="st"><div class="st-val ${cls7}">+${formatNum(p.stars_7d||0)}</div><div class="st-lbl">本周</div></div>
+      <div class="st"><div class="st-val">+${formatNum(p.stars_30d||0)}</div><div class="st-lbl">本月</div></div>
+      <div class="st"><div class="st-val">${formatNum(p.forks||0)}</div><div class="st-lbl">Forks</div></div>
+    </div>
+    <div class="card-meta">
+      <span class="lang-dot">${p.language||'Other'}</span>
+      <span class="commit">Updated ${p.last_commit||''}</span>
+    </div>
+    <div class="card-topics">${topics.map(t=>`<span class="topic">${t}</span>`).join('')}</div>
+    <a class="card-link" href="${p.url}" target="_blank" rel="noopener">${p.url}</a>
+  </div>`;
+}
+
+function updateStats(){
+  const total=projects.length;
+  const classic=projects.filter(p=>p.tag_class==='classic').length;
+  const surging=projects.filter(p=>p.tag_class==='surging').length;
+  const newstar=projects.filter(p=>p.tag_class==='newstar').length;
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statClassic').textContent=classic;
+  document.getElementById('statSurging').textContent=surging;
+  document.getElementById('statNewstar').textContent=newstar;
+}
+
+function filterProjects(){
+  const search=(document.getElementById('searchInput').value||'').toLowerCase();
+  const sort=document.getElementById('sortSelect').value;
+  const lang=document.getElementById('filterLang').value;
+  const tag=document.getElementById('filterTag').value;
+  const grid=document.getElementById('projectGrid');
+
+  let filtered=projects.filter(p=>{
+    if(lang && p.language!==lang) return false;
+    if(tag && p.tag!==tag) return false;
+    if(search){
+      const h=(p.name+' '+p.description+' '+(p.topics||[]).join(' ')).toLowerCase();
+      if(!h.includes(search)) return false;
+    }
+    return true;
+  });
+
+  if(sort==='stars') filtered.sort((a,b)=>(b.total_stars||0)-(a.total_stars||0));
+  else if(sort==='stars_7d') filtered.sort((a,b)=>(b.stars_7d||0)-(a.stars_7d||0));
+  else if(sort==='stars_30d') filtered.sort((a,b)=>(b.stars_30d||0)-(a.stars_30d||0));
+  else if(sort==='last_commit') filtered.sort((a,b)=>(b.last_commit||'').localeCompare(a.last_commit||''));
+
+  if(!filtered.length){grid.innerHTML='<div class="no-results">没有找到匹配的项目，请调整筛选条件。</div>';return}
+  grid.innerHTML=filtered.map(createCard).join('');
+}
+
+function render(){
+  updateStats();
+  buildLangOptions();
+  filterProjects();
+}
+
+// Load data.json
+fetch('data.json?'+Date.now())
+  .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
+  .then(data=>{
+    projects=data;
+    render();
+  })
+  .catch(()=>{
+    document.getElementById('projectGrid').innerHTML=
+      '<div class="error-state">数据加载失败。请稍后刷新，或确认 data.json 已生成。</div>';
+  });
+
+setDateBadge();
+</script>
+</body>
+</html>
