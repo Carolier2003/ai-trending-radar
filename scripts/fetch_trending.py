@@ -234,6 +234,11 @@ def main():
     # Keep top 18-20, ensuring diversity
     final = enriched[:20]
 
+    if not final:
+        print("\nERROR: No repos collected. Possible API rate limit or network issue.", file=sys.stderr)
+        print("Keeping existing data.json unchanged.", file=sys.stderr)
+        sys.exit(1)
+
     # Stats
     classic = sum(1 for r in final if r["tag_class"] == "classic")
     surging = sum(1 for r in final if r["tag_class"] == "surging")
