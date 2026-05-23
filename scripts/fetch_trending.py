@@ -142,7 +142,9 @@ def compute_growth(repo_name, current_stars, cache):
     """
     now = datetime.utcnow()
     history = cache.get(repo_name, {})
-    history[TODAY] = current_stars
+    # Only update if not already recorded today
+    if TODAY not in history:
+        history[TODAY] = current_stars
 
     # Find closest historical points
     best_7d = (None, 999)
@@ -174,14 +176,19 @@ def classify(repo):
     s30 = repo.get("stars_30d", 0)
     total = repo.get("total_stars", 0)
 
-    if s7 >= 6000 or s30 >= 20000:
+    # 周增超过 200 星就算飙升
+    if s7 >= 200:
         return "🔥 本周飙升", "surging"
-    if s7 >= 1500 or s30 >= 6000:
+    # 周增 50-199 星算稳步上升
+    if s7 >= 50:
         return "📈 稳步上升", "rising"
-    if s7 >= 300 and total < 30000:
+    # 总星数 < 2 万且周增 > 20 算新星
+    if total < 20000 and s7 >= 20:
         return "🌱 活跃新星", "newstar"
+    # 总星数 > 5 万且增长不明显算经典
     if total >= 50000:
         return "⭐ 经典热门", "classic"
+    # 默认稳步上升
     return "📈 稳步上升", "rising"
 
 

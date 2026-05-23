@@ -2,11 +2,11 @@
   {
     "name": "affaan-m/ECC",
     "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
-    "total_stars": 188487,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 29171,
-    "last_commit": "2026-05-20",
+    "total_stars": 188558,
+    "stars_7d": 271,
+    "stars_30d": 271,
+    "forks": 29180,
+    "last_commit": "",
     "language": "JavaScript",
     "topics": [
       "ai-agents",
@@ -18,17 +18,17 @@
       "productivity"
     ],
     "url": "https://github.com/affaan-m/ECC",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "ollama/ollama",
     "description": "Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.",
-    "total_stars": 172023,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 16240,
-    "last_commit": "2026-05-22",
+    "total_stars": 172056,
+    "stars_7d": 189,
+    "stars_30d": 189,
+    "forks": 16248,
+    "last_commit": "",
     "language": "Go",
     "topics": [
       "deepseek",
@@ -41,17 +41,17 @@
       "llama"
     ],
     "url": "https://github.com/ollama/ollama",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "NousResearch/hermes-agent",
     "description": "The agent that grows with you",
-    "total_stars": 162885,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 26609,
-    "last_commit": "2026-05-22",
+    "total_stars": 163236,
+    "stars_7d": 421,
+    "stars_30d": 421,
+    "forks": 26717,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "ai",
@@ -64,17 +64,17 @@
       "clawdbot"
     ],
     "url": "https://github.com/NousResearch/hermes-agent",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "f/prompts.chat",
     "description": "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source — self-host for your organization with complete privacy.",
-    "total_stars": 162678,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 21166,
-    "last_commit": "2026-05-22",
+    "total_stars": 162686,
+    "stars_7d": 246,
+    "stars_30d": 246,
+    "forks": 21169,
+    "last_commit": "",
     "language": "HTML",
     "topics": [
       "ai",
@@ -87,17 +87,17 @@
       "gpt"
     ],
     "url": "https://github.com/f/prompts.chat",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "huggingface/transformers",
     "description": "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training.",
-    "total_stars": 160874,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 33296,
-    "last_commit": "2026-05-22",
+    "total_stars": 160886,
+    "stars_7d": 39,
+    "stars_30d": 39,
+    "forks": 33297,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "audio",
@@ -116,11 +116,11 @@
   {
     "name": "langgenius/dify",
     "description": "Production-ready platform for agentic workflow development.",
-    "total_stars": 142266,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 22370,
-    "last_commit": "2026-05-22",
+    "total_stars": 142287,
+    "stars_7d": 60,
+    "stars_30d": 60,
+    "forks": 22379,
+    "last_commit": "",
     "language": "TypeScript",
     "topics": [
       "agent",
@@ -133,17 +133,17 @@
       "genai"
     ],
     "url": "https://github.com/langgenius/dify",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "open-webui/open-webui",
     "description": "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)",
-    "total_stars": 138241,
-    "stars_7d": 0,
-    "stars_30d": 0,
+    "total_stars": 138275,
+    "stars_7d": 94,
+    "stars_30d": 94,
     "forks": 19770,
-    "last_commit": "2026-05-22",
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "ai",
@@ -156,17 +156,17 @@
       "open-webui"
     ],
     "url": "https://github.com/open-webui/open-webui",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "x1xhlol/system-prompts-and-models-of-ai-tools",
     "description": "FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Cursor, Devin AI, Junie, Kiro, Leap.new, Lovable, Manus, NotionAI, Orchids.app, Perplexity, Poke, Qoder, Replit, Same.dev, Trae, Traycer AI, VSCode Agent, Warp.dev, Windsurf, Xcode, Z.ai Code, Dia & v0. (And other Open Sourced) System Prompts, Internal Tools & AI Models",
-    "total_stars": 138076,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 34417,
-    "last_commit": "2026-05-18",
+    "total_stars": 138097,
+    "stars_7d": 254,
+    "stars_30d": 254,
+    "forks": 34421,
+    "last_commit": "",
     "language": "Other",
     "topics": [
       "ai",
@@ -179,17 +179,17 @@
       "github-copilot"
     ],
     "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "langchain-ai/langchain",
     "description": "The agent engineering platform.",
-    "total_stars": 137403,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 22730,
-    "last_commit": "2026-05-22",
+    "total_stars": 137425,
+    "stars_7d": 97,
+    "stars_30d": 97,
+    "forks": 22733,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "agents",
@@ -202,17 +202,17 @@
       "framework"
     ],
     "url": "https://github.com/langchain-ai/langchain",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "firecrawl/firecrawl",
     "description": "🔥 Search, scrape, and clean the web for AI agents.",
-    "total_stars": 123014,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 7460,
-    "last_commit": "2026-05-22",
+    "total_stars": 123109,
+    "stars_7d": 335,
+    "stars_30d": 335,
+    "forks": 7466,
+    "last_commit": "",
     "language": "TypeScript",
     "topics": [
       "ai",
@@ -225,17 +225,17 @@
       "html-to-markdown"
     ],
     "url": "https://github.com/firecrawl/firecrawl",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "Shubhamsaboo/awesome-llm-apps",
     "description": "100+ AI Agent & RAG apps you can actually run — clone, customize, ship.",
-    "total_stars": 111428,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 16542,
-    "last_commit": "2026-05-21",
+    "total_stars": 111472,
+    "stars_7d": 274,
+    "stars_30d": 274,
+    "forks": 16552,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "agents",
@@ -244,31 +244,31 @@
       "rag"
     ],
     "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "msitarzewski/agency-agents",
     "description": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables.",
-    "total_stars": 104169,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 17134,
+    "total_stars": 104256,
+    "stars_7d": 255,
+    "stars_30d": 255,
+    "forks": 17146,
     "last_commit": "",
     "language": "Shell",
     "topics": [],
     "url": "https://github.com/msitarzewski/agency-agents",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "browser-use/browser-use",
     "description": "🌐 Make websites accessible for AI agents. Automate tasks online with ease.",
-    "total_stars": 95112,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 10714,
-    "last_commit": "2026-05-22",
+    "total_stars": 95142,
+    "stars_7d": 67,
+    "stars_30d": 67,
+    "forks": 10715,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "ai-agents",
@@ -279,31 +279,31 @@
       "python"
     ],
     "url": "https://github.com/browser-use/browser-use",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "karpathy/autoresearch",
     "description": "AI agents running research on single-GPU nanochat training automatically",
-    "total_stars": 82759,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 12011,
+    "total_stars": 82793,
+    "stars_7d": 282,
+    "stars_30d": 282,
+    "forks": 12015,
     "last_commit": "",
     "language": "Python",
     "topics": [],
     "url": "https://github.com/karpathy/autoresearch",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "infiniflow/ragflow",
     "description": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs",
-    "total_stars": 81047,
-    "stars_7d": 0,
-    "stars_30d": 0,
+    "total_stars": 81059,
+    "stars_7d": 55,
+    "stars_30d": 55,
     "forks": 9286,
-    "last_commit": "2026-05-22",
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "agentic-ai",
@@ -316,17 +316,17 @@
       "llm-apps"
     ],
     "url": "https://github.com/infiniflow/ragflow",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "vllm-project/vllm",
     "description": "A high-throughput and memory-efficient inference and serving engine for LLMs",
-    "total_stars": 80734,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 17113,
-    "last_commit": "2026-05-22",
+    "total_stars": 80758,
+    "stars_7d": 38,
+    "stars_30d": 38,
+    "forks": 17123,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "amd",
@@ -345,11 +345,11 @@
   {
     "name": "TauricResearch/TradingAgents",
     "description": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
-    "total_stars": 78552,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 15308,
-    "last_commit": "2026-05-17",
+    "total_stars": 78618,
+    "stars_7d": 294,
+    "stars_30d": 294,
+    "forks": 15323,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "agent",
@@ -358,17 +358,17 @@
       "trading"
     ],
     "url": "https://github.com/TauricResearch/TradingAgents",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
   },
   {
     "name": "PaddlePaddle/PaddleOCR",
     "description": "Turn any PDF or image document into structured data for your AI. A powerful, lightweight OCR toolkit that bridges the gap between images/PDFs and LLMs. Supports 100+ languages.",
-    "total_stars": 78361,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 10469,
-    "last_commit": "2026-05-19",
+    "total_stars": 78374,
+    "stars_7d": 181,
+    "stars_30d": 181,
+    "forks": 10470,
+    "last_commit": "",
     "language": "Python",
     "topics": [
       "ai4science",
@@ -381,17 +381,17 @@
       "pdf-extractor-rag"
     ],
     "url": "https://github.com/PaddlePaddle/PaddleOCR",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "thedotmack/claude-mem",
     "description": "Persistent Context Across Sessions for Every Agent –  Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More",
-    "total_stars": 77466,
-    "stars_7d": 0,
-    "stars_30d": 0,
-    "forks": 6674,
-    "last_commit": "2026-05-21",
+    "total_stars": 77523,
+    "stars_7d": 123,
+    "stars_30d": 123,
+    "forks": 6682,
+    "last_commit": "",
     "language": "TypeScript",
     "topics": [
       "ai",
@@ -404,17 +404,17 @@
       "claude-agent-sdk"
     ],
     "url": "https://github.com/thedotmack/claude-mem",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
   },
   {
     "name": "nomic-ai/gpt4all",
     "description": "GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.",
-    "total_stars": 77362,
-    "stars_7d": 0,
-    "stars_30d": 0,
+    "total_stars": 77359,
+    "stars_7d": 34,
+    "stars_30d": 181,
     "forks": 8328,
-    "last_commit": "2025-05-27",
+    "last_commit": "",
     "language": "C++",
     "topics": [
       "ai-chat",
