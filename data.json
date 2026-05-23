@@ -36,7 +36,13 @@
     "forks": 15313,
     "last_commit": "",
     "language": "Python",
-    "topics": [],
+    "topics": [
+      "agent",
+      "finance",
+      "llm",
+      "multiagent",
+      "trading"
+    ],
     "url": "https://github.com/TauricResearch/TradingAgents",
     "tag": "🔥 本周飙升",
     "tag_class": "surging"
@@ -50,7 +56,14 @@
     "forks": 4959,
     "last_commit": "",
     "language": "Shell",
-    "topics": [],
+    "topics": [
+      "agent-skills",
+      "antigravity",
+      "antigravity-ide",
+      "claude-code",
+      "cursor",
+      "skills"
+    ],
     "url": "https://github.com/addyosmani/agent-skills",
     "tag": "🔥 本周飙升",
     "tag_class": "surging"
@@ -78,7 +91,16 @@
     "forks": 6138,
     "last_commit": "",
     "language": "TypeScript",
-    "topics": [],
+    "topics": [
+      "agentic-ai",
+      "agentic-framework",
+      "agentic-rag",
+      "agentic-workflow",
+      "agents",
+      "ai-agent",
+      "ai-assistant",
+      "ai-coding"
+    ],
     "url": "https://github.com/ruvnet/ruflo",
     "tag": "🔥 本周飙升",
     "tag_class": "surging"
@@ -106,7 +128,16 @@
     "forks": 1629,
     "last_commit": "",
     "language": "Python",
-    "topics": [],
+    "topics": [
+      "academic-pipeline",
+      "academic-writing",
+      "ai-research",
+      "claude",
+      "claude-code",
+      "literature-review",
+      "peer-review",
+      "prompt-engineering"
+    ],
     "url": "https://github.com/Imbad0202/academic-research-skills",
     "tag": "🔥 本周飙升",
     "tag_class": "surging"
@@ -116,7 +147,7 @@
     "description": "An agentic skills framework & software development methodology that works.",
     "total_stars": 202776,
     "stars_7d": 10688,
-    "stars_30d": 0,
+    "stars_30d": 42752,
     "forks": 18059,
     "last_commit": "",
     "language": "Shell",
@@ -134,7 +165,16 @@
     "forks": 2023,
     "last_commit": "",
     "language": "JavaScript",
-    "topics": [],
+    "topics": [
+      "ai-agents",
+      "ai-gateway",
+      "anthropic",
+      "chatgpt",
+      "claude",
+      "claude-code",
+      "cline",
+      "codex"
+    ],
     "url": "https://github.com/decolua/9router",
     "tag": "🔥 本周飙升",
     "tag_class": "surging"
@@ -148,7 +188,16 @@
     "forks": 1339,
     "last_commit": "",
     "language": "TypeScript",
-    "topics": [],
+    "topics": [
+      "agentmemory",
+      "agents",
+      "ai",
+      "claude",
+      "claudecode",
+      "codex",
+      "copilot",
+      "cursor"
+    ],
     "url": "https://github.com/rohitg00/agentmemory",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
@@ -158,11 +207,20 @@
     "description": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Gemini CLI & Hermes Agent. Only official website: ccswitch.io",
     "total_stars": 78151,
     "stars_7d": 6614,
-    "stars_30d": 0,
+    "stars_30d": 26456,
     "forks": 5087,
     "last_commit": "",
     "language": "Rust",
-    "topics": [],
+    "topics": [
+      "ai-tools",
+      "claude-code",
+      "codex",
+      "desktop-app",
+      "hermes",
+      "hermes-agent",
+      "mcp",
+      "minimax"
+    ],
     "url": "https://github.com/farion1231/cc-switch",
     "tag": "⭐ 经典热门",
     "tag_class": "classic"
@@ -176,7 +234,16 @@
     "forks": 3518,
     "last_commit": "",
     "language": "TypeScript",
-    "topics": [],
+    "topics": [
+      "agent",
+      "agent-tars",
+      "browser-use",
+      "computer-use",
+      "cowork",
+      "gui-agent",
+      "gui-operator",
+      "mcp"
+    ],
     "url": "https://github.com/bytedance/UI-TARS-desktop",
     "tag": "📈 稳步上升",
     "tag_class": "rising"
@@ -186,11 +253,13 @@
     "description": "Public repository for Agent Skills",
     "total_stars": 139292,
     "stars_7d": 4703,
-    "stars_30d": 0,
+    "stars_30d": 18812,
     "forks": 16431,
     "last_commit": "",
     "language": "Python",
-    "topics": [],
+    "topics": [
+      "agent-skills"
+    ],
     "url": "https://github.com/anthropics/skills",
     "tag": "⭐ 经典热门",
     "tag_class": "classic"
@@ -200,7 +269,7 @@
     "description": "\"CLI-Anything: Making ALL Software Agent-Native\" -- CLI-Hub: https://clianything.cc/",
     "total_stars": 39539,
     "stars_7d": 4587,
-    "stars_30d": 0,
+    "stars_30d": 18348,
     "forks": 3736,
     "last_commit": "",
     "language": "Python",
@@ -214,11 +283,20 @@
     "description": "A set of ready to use Agent Skills for research, science, engineering, analysis, finance and writing.",
     "total_stars": 25205,
     "stars_7d": 3478,
-    "stars_30d": 0,
+    "stars_30d": 13912,
     "forks": 2646,
     "last_commit": "",
     "language": "Python",
-    "topics": [],
+    "topics": [
+      "agent-skills",
+      "ai-scientist",
+      "bioinformatics",
+      "chemoinformatics",
+      "claude",
+      "claude-skills",
+      "claudecode",
+      "clinical-research"
+    ],
     "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
     "tag": "📈 稳步上升",
     "tag_class": "rising"
@@ -228,11 +306,14 @@
     "description": "\"ViMax: Agentic Video Generation (Director, Screenwriter, Producer, and Video Generator All-in-One)\"",
     "total_stars": 6702,
     "stars_7d": 2495,
-    "stars_30d": 0,
+    "stars_30d": 9980,
     "forks": 1058,
     "last_commit": "",
     "language": "Python",
-    "topics": [],
+    "topics": [
+      "agentic-aigc",
+      "video-generation"
+    ],
     "url": "https://github.com/HKUDS/ViMax",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
@@ -242,11 +323,17 @@
     "description": "Claude Skill: Multi-source content processor for NotebookLM. Supports WeChat articles, web pages, YouTube, PDF, Markdown, search queries → Podcast/PPT/MindMap/Quiz etc.",
     "total_stars": 4445,
     "stars_7d": 2257,
-    "stars_30d": 0,
+    "stars_30d": 9028,
     "forks": 481,
     "last_commit": "",
     "language": "Python",
-    "topics": [],
+    "topics": [
+      "automation",
+      "claude",
+      "mcp",
+      "notebooklm",
+      "skill"
+    ],
     "url": "https://github.com/joeseesun/qiaomu-anything-to-notebooklm",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
@@ -256,11 +343,19 @@
     "description": "The secure, validated skill registry for professional AI coding agents. Extend Antigravity, Claude Code, Cursor, Copilot and more with absolute confidence.",
     "total_stars": 4380,
     "stars_7d": 2036,
-    "stars_30d": 0,
+    "stars_30d": 8144,
     "forks": 371,
     "last_commit": "",
     "language": "TypeScript",
-    "topics": [],
+    "topics": [
+      "agent",
+      "ai",
+      "antigravity",
+      "claude-code",
+      "copilot",
+      "cursor",
+      "skills"
+    ],
     "url": "https://github.com/tech-leads-club/agent-skills",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
@@ -270,7 +365,7 @@
     "description": "Lightweight coding agent that runs in your terminal",
     "total_stars": 84674,
     "stars_7d": 1863,
-    "stars_30d": 0,
+    "stars_30d": 7452,
     "forks": 12335,
     "last_commit": "",
     "language": "Rust",

@@ -208,6 +208,9 @@ def main():
     for repo in enriched:
         if repo["name"] in monthly_map:
             repo["stars_30d"] = monthly_map[repo["name"]]
+        else:
+            # Estimate monthly growth from weekly (assume 4 weeks)
+            repo["stars_30d"] = repo["stars_7d"] * 4
 
     # Assign tags
     for repo in enriched:
