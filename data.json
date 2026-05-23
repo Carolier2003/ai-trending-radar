@@ -2,61 +2,23 @@
   {
     "name": "colbymchenry/codegraph",
     "description": "Pre-indexed code knowledge graph for Claude Code, Codex, Cursor, OpenCode, and Hermes Agent — fewer tokens, fewer tool calls, 100% local",
-    "total_stars": 17069,
+    "total_stars": 17093,
     "stars_7d": 14072,
     "stars_30d": 15112,
     "stars_30d_estimated": false,
-    "forks": 946,
+    "forks": 948,
     "last_commit": "2026-05-22",
     "language": "TypeScript",
     "topics": [],
     "url": "https://github.com/colbymchenry/codegraph",
-    "tag": "🔥 本周飙升",
-    "tag_class": "surging"
-  },
-  {
-    "name": "Imbad0202/academic-research-skills",
-    "description": "Academic Research Skills for Claude Code: research → write → review → revise → finalize",
-    "total_stars": 19179,
-    "stars_7d": 11550,
-    "stars_30d": 15541,
-    "stars_30d_estimated": false,
-    "forks": 1646,
-    "last_commit": "2026-05-23",
-    "language": "Python",
-    "topics": [
-      "academic-pipeline",
-      "academic-writing",
-      "ai-research",
-      "claude",
-      "claude-code",
-      "literature-review",
-      "peer-review",
-      "prompt-engineering"
-    ],
-    "url": "https://github.com/Imbad0202/academic-research-skills",
-    "tag": "🔥 本周飙升",
-    "tag_class": "surging"
-  },
-  {
-    "name": "obra/superpowers",
-    "description": "An agentic skills framework & software development methodology that works.",
-    "total_stars": 203118,
-    "stars_7d": 10497,
-    "stars_30d": 41988,
-    "stars_30d_estimated": true,
-    "forks": 18096,
-    "last_commit": "2026-05-21",
-    "language": "Shell",
-    "topics": [],
-    "url": "https://github.com/obra/superpowers",
+    "category": "知识/RAG",
     "tag": "🔥 本周飙升",
     "tag_class": "surging"
   },
   {
     "name": "rohitg00/agentmemory",
     "description": "#1 Persistent memory for AI coding agents based on real-world benchmarks",
-    "total_stars": 16497,
+    "total_stars": 16500,
     "stars_7d": 6891,
     "stars_30d": 14360,
     "stars_30d_estimated": false,
@@ -74,13 +36,14 @@
       "cursor"
     ],
     "url": "https://github.com/rohitg00/agentmemory",
+    "category": "知识/RAG",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
   {
     "name": "farion1231/cc-switch",
     "description": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Gemini CLI & Hermes Agent. Only official website: ccswitch.io",
-    "total_stars": 78397,
+    "total_stars": 78406,
     "stars_7d": 6505,
     "stars_30d": 29329,
     "stars_30d_estimated": false,
@@ -98,6 +61,7 @@
       "minimax"
     ],
     "url": "https://github.com/farion1231/cc-switch",
+    "category": "开发工具",
     "tag": "⭐ 经典热门",
     "tag_class": "classic"
   },
@@ -113,54 +77,14 @@
     "language": "Python",
     "topics": [],
     "url": "https://github.com/HKUDS/CLI-Anything",
-    "tag": "📈 稳步上升",
-    "tag_class": "rising"
-  },
-  {
-    "name": "anthropics/skills",
-    "description": "Public repository for Agent Skills",
-    "total_stars": 139416,
-    "stars_7d": 4545,
-    "stars_30d": 18180,
-    "stars_30d_estimated": true,
-    "forks": 16449,
-    "last_commit": "2026-05-19",
-    "language": "Python",
-    "topics": [
-      "agent-skills"
-    ],
-    "url": "https://github.com/anthropics/skills",
-    "tag": "⭐ 经典热门",
-    "tag_class": "classic"
-  },
-  {
-    "name": "K-Dense-AI/scientific-agent-skills",
-    "description": "A set of ready to use Agent Skills for research, science, engineering, analysis, finance and writing.",
-    "total_stars": 25228,
-    "stars_7d": 2977,
-    "stars_30d": 11908,
-    "stars_30d_estimated": true,
-    "forks": 2651,
-    "last_commit": "2026-05-21",
-    "language": "Python",
-    "topics": [
-      "agent-skills",
-      "ai-scientist",
-      "bioinformatics",
-      "chemoinformatics",
-      "claude",
-      "claude-skills",
-      "claudecode",
-      "clinical-research"
-    ],
-    "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
+    "category": "开发工具",
     "tag": "📈 稳步上升",
     "tag_class": "rising"
   },
   {
     "name": "HKUDS/ViMax",
     "description": "\"ViMax: Agentic Video Generation (Director, Screenwriter, Producer, and Video Generator All-in-One)\"",
-    "total_stars": 6767,
+    "total_stars": 6768,
     "stars_7d": 2685,
     "stars_30d": 3983,
     "stars_30d_estimated": false,
@@ -172,61 +96,18 @@
       "video-generation"
     ],
     "url": "https://github.com/HKUDS/ViMax",
-    "tag": "🌱 活跃新星",
-    "tag_class": "newstar"
-  },
-  {
-    "name": "tech-leads-club/agent-skills",
-    "description": "The secure, validated skill registry for professional AI coding agents. Extend Antigravity, Claude Code, Cursor, Copilot and more with absolute confidence.",
-    "total_stars": 4385,
-    "stars_7d": 2042,
-    "stars_30d": 8168,
-    "stars_30d_estimated": true,
-    "forks": 372,
-    "last_commit": "2026-05-21",
-    "language": "TypeScript",
-    "topics": [
-      "agent",
-      "ai",
-      "antigravity",
-      "claude-code",
-      "copilot",
-      "cursor",
-      "skills"
-    ],
-    "url": "https://github.com/tech-leads-club/agent-skills",
-    "tag": "🌱 活跃新星",
-    "tag_class": "newstar"
-  },
-  {
-    "name": "joeseesun/qiaomu-anything-to-notebooklm",
-    "description": "Claude Skill: Multi-source content processor for NotebookLM. Supports WeChat articles, web pages, YouTube, PDF, Markdown, search queries → Podcast/PPT/MindMap/Quiz etc.",
-    "total_stars": 4488,
-    "stars_7d": 1932,
-    "stars_30d": 7728,
-    "stars_30d_estimated": true,
-    "forks": 486,
-    "last_commit": "2026-04-28",
-    "language": "Python",
-    "topics": [
-      "automation",
-      "claude",
-      "mcp",
-      "notebooklm",
-      "skill"
-    ],
-    "url": "https://github.com/joeseesun/qiaomu-anything-to-notebooklm",
+    "category": "开发工具",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
   {
     "name": "humanlayer/12-factor-agents",
     "description": "What are the principles we can use to build LLM-powered software that is actually good enough to put in the hands of production customers?",
-    "total_stars": 21792,
+    "total_stars": 21795,
     "stars_7d": 1907,
     "stars_30d": 2347,
     "stars_30d_estimated": false,
-    "forks": 1636,
+    "forks": 1637,
     "last_commit": "2025-09-21",
     "language": "TypeScript",
     "topics": [
@@ -240,28 +121,30 @@
       "memory"
     ],
     "url": "https://github.com/humanlayer/12-factor-agents",
+    "category": "知识/RAG",
     "tag": "📈 稳步上升",
     "tag_class": "rising"
   },
   {
     "name": "openai/codex",
     "description": "Lightweight coding agent that runs in your terminal",
-    "total_stars": 84742,
+    "total_stars": 84746,
     "stars_7d": 1877,
     "stars_30d": 8003,
     "stars_30d_estimated": false,
-    "forks": 12344,
+    "forks": 12346,
     "last_commit": "2026-05-23",
     "language": "Rust",
     "topics": [],
     "url": "https://github.com/openai/codex",
+    "category": "开发工具",
     "tag": "⭐ 经典热门",
     "tag_class": "classic"
   },
   {
     "name": "can1357/oh-my-pi",
     "description": "⌥ AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more",
-    "total_stars": 6444,
+    "total_stars": 6448,
     "stars_7d": 1762,
     "stars_30d": 2937,
     "stars_30d_estimated": false,
@@ -279,6 +162,7 @@
       "llm"
     ],
     "url": "https://github.com/can1357/oh-my-pi",
+    "category": "开发工具",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
@@ -303,6 +187,7 @@
       "outbound-calls"
     ],
     "url": "https://github.com/dograh-hq/dograh",
+    "category": "应用/平台",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
@@ -327,6 +212,7 @@
       "offline-first"
     ],
     "url": "https://github.com/yichuan-w/LEANN",
+    "category": "知识/RAG",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
@@ -351,13 +237,14 @@
       "mobile-app"
     ],
     "url": "https://github.com/stablyai/orca",
+    "category": "开发工具",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
   {
     "name": "Michael-A-Kuykendall/shimmy",
     "description": "⚡ Python-free Rust inference server — OpenAI-API compatible. GGUF + SafeTensors, hot model swap, auto-discovery, single binary. FREE now, FREE forever.",
-    "total_stars": 5231,
+    "total_stars": 5232,
     "stars_7d": 425,
     "stars_30d": 1700,
     "stars_30d_estimated": true,
@@ -375,6 +262,7 @@
       "inference-server"
     ],
     "url": "https://github.com/Michael-A-Kuykendall/shimmy",
+    "category": "模型/推理",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
@@ -398,13 +286,14 @@
       "vlm"
     ],
     "url": "https://github.com/NVIDIA-AI-Blueprints/video-search-and-summarization",
+    "category": "模型/推理",
     "tag": "🌱 活跃新星",
     "tag_class": "newstar"
   },
   {
     "name": "OpenBMB/MiniCPM-V",
     "description": "A Pocket-Sized MLLM for Ultra-Efficient Image and Video Understanding on Your Phone",
-    "total_stars": 25193,
+    "total_stars": 25194,
     "stars_7d": 294,
     "stars_30d": 1176,
     "stars_30d_estimated": true,
@@ -418,7 +307,141 @@
       "multi-modal"
     ],
     "url": "https://github.com/OpenBMB/MiniCPM-V",
+    "category": "模型/推理",
     "tag": "📈 稳步上升",
     "tag_class": "rising"
+  },
+  {
+    "name": "archestra-ai/archestra",
+    "description": "Enterprise AI Platform with guardrails, MCP registry, gateway & orchestrator",
+    "total_stars": 3730,
+    "stars_7d": 78,
+    "stars_30d": 312,
+    "stars_30d_estimated": true,
+    "forks": 854,
+    "last_commit": "2026-05-23",
+    "language": "TypeScript",
+    "topics": [
+      "a2a",
+      "a2a-mcp",
+      "acp",
+      "agent",
+      "ai",
+      "chatgpt",
+      "chatgpt-api",
+      "claude"
+    ],
+    "url": "https://github.com/archestra-ai/archestra",
+    "category": "应用/平台",
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
+  },
+  {
+    "name": "Imbad0202/academic-research-skills",
+    "description": "Academic Research Skills for Claude Code: research → write → review → revise → finalize",
+    "total_stars": 19181,
+    "stars_7d": 11550,
+    "stars_30d": 15541,
+    "stars_30d_estimated": false,
+    "forks": 1648,
+    "last_commit": "2026-05-23",
+    "language": "Python",
+    "topics": [
+      "academic-pipeline",
+      "academic-writing",
+      "ai-research",
+      "claude",
+      "claude-code",
+      "literature-review",
+      "peer-review",
+      "prompt-engineering"
+    ],
+    "url": "https://github.com/Imbad0202/academic-research-skills",
+    "category": "技能/提示词",
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
+  },
+  {
+    "name": "obra/superpowers",
+    "description": "An agentic skills framework & software development methodology that works.",
+    "total_stars": 203126,
+    "stars_7d": 10497,
+    "stars_30d": 41988,
+    "stars_30d_estimated": true,
+    "forks": 18096,
+    "last_commit": "2026-05-21",
+    "language": "Shell",
+    "topics": [],
+    "url": "https://github.com/obra/superpowers",
+    "category": "技能/提示词",
+    "tag": "🔥 本周飙升",
+    "tag_class": "surging"
+  },
+  {
+    "name": "anthropics/skills",
+    "description": "Public repository for Agent Skills",
+    "total_stars": 139422,
+    "stars_7d": 4545,
+    "stars_30d": 18180,
+    "stars_30d_estimated": true,
+    "forks": 16449,
+    "last_commit": "2026-05-19",
+    "language": "Python",
+    "topics": [
+      "agent-skills"
+    ],
+    "url": "https://github.com/anthropics/skills",
+    "category": "技能/提示词",
+    "tag": "⭐ 经典热门",
+    "tag_class": "classic"
+  },
+  {
+    "name": "K-Dense-AI/scientific-agent-skills",
+    "description": "A set of ready to use Agent Skills for research, science, engineering, analysis, finance and writing.",
+    "total_stars": 25229,
+    "stars_7d": 2977,
+    "stars_30d": 11908,
+    "stars_30d_estimated": true,
+    "forks": 2651,
+    "last_commit": "2026-05-21",
+    "language": "Python",
+    "topics": [
+      "agent-skills",
+      "ai-scientist",
+      "bioinformatics",
+      "chemoinformatics",
+      "claude",
+      "claude-skills",
+      "claudecode",
+      "clinical-research"
+    ],
+    "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
+    "category": "技能/提示词",
+    "tag": "📈 稳步上升",
+    "tag_class": "rising"
+  },
+  {
+    "name": "tech-leads-club/agent-skills",
+    "description": "The secure, validated skill registry for professional AI coding agents. Extend Antigravity, Claude Code, Cursor, Copilot and more with absolute confidence.",
+    "total_stars": 4387,
+    "stars_7d": 2042,
+    "stars_30d": 8168,
+    "stars_30d_estimated": true,
+    "forks": 372,
+    "last_commit": "2026-05-21",
+    "language": "TypeScript",
+    "topics": [
+      "agent",
+      "ai",
+      "antigravity",
+      "claude-code",
+      "copilot",
+      "cursor",
+      "skills"
+    ],
+    "url": "https://github.com/tech-leads-club/agent-skills",
+    "category": "技能/提示词",
+    "tag": "🌱 活跃新星",
+    "tag_class": "newstar"
   }
 ]

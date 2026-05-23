@@ -139,6 +139,7 @@ body{
   transition:box-shadow .35s var(--ease-out-expo),transform .35s var(--ease-out-expo);
   cursor:default;position:relative;overflow:hidden;
   display:flex;flex-direction:column;
+  min-height:390px;
 }
 .card::before{
   content:'';position:absolute;inset:0;border-radius:var(--radius-md);
@@ -179,7 +180,8 @@ body{
 
 .card-desc{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:.8rem;color:var(--ink-soft);line-height:1.55;margin-bottom:16px;flex:1;
+  font-size:.8rem;color:var(--ink-soft);line-height:1.55;margin-bottom:16px;
+  min-height:74px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
 }
 
 .card-stats{
@@ -211,8 +213,13 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:.7rem;color:var(--ink-muted);
 }
+.category-pill{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.66rem;font-weight:600;color:var(--ink-soft);
+  padding:3px 9px;border-radius:100px;background:var(--cream-deep);
+}
 
-.card-topics{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.card-topics{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;min-height:58px;align-content:flex-start}
 .topic{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:.66rem;padding:3px 9px;border-radius:100px;
@@ -222,11 +229,11 @@ body{
 .topic:hover{background:var(--amber);color:#fff}
 
 .card-link{
-  font-family:"SF Mono","Fira Code","Cascadia Code",monospace;
-  font-size:.68rem;color:var(--ink-muted);word-break:break-all;
-  text-decoration:none;transition:color .2s;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:.72rem;font-weight:650;color:var(--amber);
+  text-decoration:none;transition:color .2s,transform .2s;margin-top:auto;
 }
-.card-link:hover{color:var(--amber)}
+.card-link:hover{color:var(--coral);transform:translateX(2px)}
 
 /* ── Loading & Error ── */
 .loading,.error-state{
@@ -295,6 +302,9 @@ body{
   <select class="ctrl-select" id="filterTag" onchange="filterProjects()">
     <option value="">全部趋势标签</option>
   </select>
+  <select class="ctrl-select" id="filterCategory" onchange="filterProjects()">
+    <option value="">全部类型</option>
+  </select>
 </div>
 
 <div class="grid" id="projectGrid">
@@ -345,6 +355,11 @@ function buildTagOptions(){
   const sel=document.getElementById('filterTag');
   tags.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o)});
 }
+function buildCategoryOptions(){
+  const categories=[...new Set(projects.map(p=>p.category).filter(Boolean))];
+  const sel=document.getElementById('filterCategory');
+  categories.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+}
 
 function createCard(p){
   const g7=p.stars_7d||0;
@@ -370,10 +385,11 @@ function createCard(p){
     </div>
     <div class="card-meta">
       <span class="lang-dot">${escapeHtml(p.language||'Other')}</span>
+      <span class="category-pill">${escapeHtml(p.category||'其他')}</span>
       <span class="commit">${updated}</span>
     </div>
     <div class="card-topics">${topics.map(t=>`<span class="topic">${escapeHtml(t)}</span>`).join('')}</div>
-    <a class="card-link" href="${repoUrl}" target="_blank" rel="noopener">${escapeHtml(repoUrl)}</a>
+    <a class="card-link" href="${repoUrl}" target="_blank" rel="noopener">查看 GitHub →</a>
   </div>`;
 }
 
@@ -393,13 +409,15 @@ function filterProjects(){
   const sort=document.getElementById('sortSelect').value;
   const lang=document.getElementById('filterLang').value;
   const tag=document.getElementById('filterTag').value;
+  const category=document.getElementById('filterCategory').value;
   const grid=document.getElementById('projectGrid');
 
   let filtered=projects.filter(p=>{
     if(lang && p.language!==lang) return false;
     if(tag && p.tag!==tag) return false;
+    if(category && p.category!==category) return false;
     if(search){
-      const h=(p.name+' '+p.description+' '+(p.topics||[]).join(' ')).toLowerCase();
+      const h=(p.name+' '+p.description+' '+(p.category||'')+' '+(p.topics||[]).join(' ')).toLowerCase();
       if(!h.includes(search)) return false;
     }
     return true;
@@ -418,6 +436,7 @@ function render(){
   updateStats();
   buildLangOptions();
   buildTagOptions();
+  buildCategoryOptions();
   filterProjects();
 }
 

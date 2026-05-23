@@ -119,6 +119,33 @@ def get_repo_extra(full_name: str) -> dict:
 
 # ── Trend classifier ────────────────────────────────────
 
+def classify_category(repo: dict) -> str:
+    """Group repos by product type so prompt/skill repos don't dominate the default view."""
+    name = repo.get("name", "").lower()
+    desc = repo.get("description", "").lower()
+    topics = " ".join(repo.get("topics", [])).lower()
+    text = f"{name} {desc} {topics}"
+
+    skill_markers = [
+        "/skills", "agent-skills", "claude skill", "claude skills",
+        "academic research skills", "prompt-engineering", "prompt engineering",
+        "skill registry", "ready to use agent skills", "skills framework",
+    ]
+    if any(marker in text for marker in skill_markers):
+        return "技能/提示词"
+    if any(marker in text for marker in ["mllm", "vlm", "gguf", "inference server", "transformers", "minicpm"]):
+        return "模型/推理"
+    if any(marker in text for marker in ["rag", "memory", "knowledge graph", "localstorage", "vector"]):
+        return "知识/RAG"
+    if any(marker in text for marker in ["framework", "blueprint", "reference architecture", "12-factor", "orchestration"]):
+        return "框架/架构"
+    if any(marker in text for marker in ["coding agent", "claude code", "codex", "cursor", "ide", "terminal", "cli", "developer-tools", "ade"]):
+        return "开发工具"
+    if any(marker in text for marker in ["platform", "desktop-app", "voice agent", "conversational-ai", "video-generation", "mobile-app"]):
+        return "应用/平台"
+    return "其他"
+
+
 def classify(repo: dict) -> tuple[str, str]:
     s7 = repo.get("stars_7d", 0)
     total = repo.get("total_stars", 0)
@@ -240,12 +267,13 @@ def main():
 
     # Assign tags
     for repo in enriched:
+        repo["category"] = classify_category(repo)
         tag, tag_class = classify(repo)
         repo["tag"] = tag
         repo["tag_class"] = tag_class
 
-    # Sort: weekly growth desc
-    enriched.sort(key=lambda x: x["stars_7d"], reverse=True)
+    # Sort by weekly growth, but keep skill/prompt collections after product-like repos.
+    enriched.sort(key=lambda x: (x["category"] == "技能/提示词", -x["stars_7d"], -x["total_stars"]))
 
     # Keep top 20
     final = enriched[:20]
