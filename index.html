@@ -311,6 +311,24 @@ let projects = [];
 
 function formatNum(n){if(n>=1000)return (n/1000).toFixed(1)+'k';return n.toString()}
 
+function escapeHtml(value){
+  return String(value??'').replace(/[&<>"']/g,ch=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
+}
+
+function safeUrl(value){
+  try{
+    const url=new URL(String(value||''),window.location.origin);
+    if(url.protocol==='https:'||url.protocol==='http:')return url.href;
+  }catch{}
+  return '#';
+}
+
+function safeClass(value){
+  return ['classic','surging','rising','newstar'].includes(value)?value:'';
+}
+
 function setDateBadge(){
   const d=new Date();
   const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
@@ -334,24 +352,28 @@ function createCard(p){
   if(g7>8000)cls7='growth-coral';
   else if(g7>3000)cls7='growth-amber';
   const topics=(p.topics||[]).slice(0,8);
-  return `<div class="card ${p.tag_class||''}">
+  const tagClass=safeClass(p.tag_class);
+  const repoUrl=safeUrl(p.url);
+  const monthLabel=p.stars_30d_estimated?'约本月':'本月';
+  const updated=p.last_commit?`Updated ${escapeHtml(p.last_commit)}`:'Updated —';
+  return `<div class="card ${tagClass}">
     <div class="card-header">
-      <span class="card-name"><a href="${p.url}" target="_blank" rel="noopener">${p.name}</a></span>
-      <span class="card-tag tag-${p.tag_class||''}">${p.tag||''}</span>
+      <span class="card-name"><a href="${repoUrl}" target="_blank" rel="noopener">${escapeHtml(p.name)}</a></span>
+      <span class="card-tag tag-${tagClass}">${escapeHtml(p.tag)}</span>
     </div>
-    <p class="card-desc">${p.description||''}</p>
+    <p class="card-desc">${escapeHtml(p.description)}</p>
     <div class="card-stats">
       <div class="st"><div class="st-val">${formatNum(p.total_stars||0)}</div><div class="st-lbl">Total ⭐</div></div>
       <div class="st"><div class="st-val ${cls7}">+${formatNum(p.stars_7d||0)}</div><div class="st-lbl">本周</div></div>
-      <div class="st"><div class="st-val">+${formatNum(p.stars_30d||0)}</div><div class="st-lbl">本月</div></div>
+      <div class="st"><div class="st-val">+${formatNum(p.stars_30d||0)}</div><div class="st-lbl">${monthLabel}</div></div>
       <div class="st"><div class="st-val">${formatNum(p.forks||0)}</div><div class="st-lbl">Forks</div></div>
     </div>
     <div class="card-meta">
-      <span class="lang-dot">${p.language||'Other'}</span>
-      <span class="commit">Updated ${p.last_commit||''}</span>
+      <span class="lang-dot">${escapeHtml(p.language||'Other')}</span>
+      <span class="commit">${updated}</span>
     </div>
-    <div class="card-topics">${topics.map(t=>`<span class="topic">${t}</span>`).join('')}</div>
-    <a class="card-link" href="${p.url}" target="_blank" rel="noopener">${p.url}</a>
+    <div class="card-topics">${topics.map(t=>`<span class="topic">${escapeHtml(t)}</span>`).join('')}</div>
+    <a class="card-link" href="${repoUrl}" target="_blank" rel="noopener">${escapeHtml(repoUrl)}</a>
   </div>`;
 }
 

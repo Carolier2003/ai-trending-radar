@@ -9,17 +9,16 @@ Zero cache. Growth data (`addStars`) comes directly from GitHub Trending.
 """
 import json
 import os
-import re
 import sys
 import time
 import urllib.request
-from datetime import datetime
+from datetime import datetime, UTC
 from pathlib import Path
 from urllib.parse import urlencode
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data.json"
-TODAY = datetime.utcnow().strftime("%Y-%m-%d")
+TODAY = datetime.now(UTC).strftime("%Y-%m-%d")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
 # ── Data sources (free, no auth needed) ─────────────────
@@ -105,12 +104,18 @@ def github_api(path: str, params: dict = None):
     return None, -1
 
 
-def get_repo_topics(full_name: str) -> list[str]:
-    """Get topics for a repo."""
+def get_repo_extra(full_name: str) -> dict:
+    """Get authoritative repo metadata from GitHub."""
     data, _ = github_api(f"/repos/{full_name}")
-    if data:
-        return data.get("topics", [])
-    return []
+    if not data:
+        return {}
+    return {
+        "forks": data.get("forks_count", 0),
+        "last_commit": (data.get("pushed_at") or "")[:10],
+        "language": data.get("language") or "Other",
+        "topics": data.get("topics", []),
+        "total_stars": data.get("stargazers_count", 0),
+    }
 
 
 # ── Trend classifier ────────────────────────────────────
@@ -149,7 +154,9 @@ def fetch_trending_json(url: str) -> list[dict]:
 
 def parse_int(s: str) -> int:
     """Parse '16,288' -> 16288."""
-    return int(s.replace(",", "")) if s else 0
+    if isinstance(s, int):
+        return s
+    return int(str(s).replace(",", "")) if s else 0
 
 
 def main():
@@ -183,7 +190,7 @@ def main():
         total_stars = parse_int(r.get("stars", "0"))
         forks = parse_int(r.get("forks", "0"))
 
-        topics = get_repo_topics(name)
+        extra = get_repo_extra(name)
         if (i + 1) % 5 == 0:
             print(f"  enriched {i+1}/{len(raw_repos)} ...")
         time.sleep(0.5)
@@ -191,13 +198,14 @@ def main():
         enriched.append({
             "name": name,
             "description": (r.get("description") or "").replace("\n", " ").strip(),
-            "total_stars": total_stars,
+            "total_stars": extra.get("total_stars") or total_stars,
             "stars_7d": add_stars,
             "stars_30d": 0,  # will fill from monthly data later
-            "forks": forks,
-            "last_commit": "",
-            "language": r.get("language") or "Other",
-            "topics": topics[:8],
+            "stars_30d_estimated": False,
+            "forks": extra.get("forks") or forks,
+            "last_commit": extra.get("last_commit", ""),
+            "language": extra.get("language") or r.get("language") or "Other",
+            "topics": extra.get("topics", [])[:8],
             "url": r.get("url", f"https://github.com/{name}"),
         })
 
@@ -225,9 +233,11 @@ def main():
     for repo in enriched:
         if repo["name"] in monthly_map:
             repo["stars_30d"] = monthly_map[repo["name"]]
+            repo["stars_30d_estimated"] = False
         else:
             # Estimate monthly growth from weekly (assume 4 weeks)
             repo["stars_30d"] = repo["stars_7d"] * 4
+            repo["stars_30d_estimated"] = True
 
     # Assign tags
     for repo in enriched:
