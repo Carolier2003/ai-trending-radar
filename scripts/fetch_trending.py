@@ -1,245 +1,213 @@
-#!/usr/bin/env python3
 """
-GitHub AI Trending Radar — Data Fetcher
+GitHub AI Trending Radar — Data Fetcher v2
 
-Queries GitHub Search API for top AI/LLM/agent repos, enriches with
-star growth from a local cache, and writes data.json at repo root.
+Pulls trending repos from isboyjc/github-trending-api (which scrapes
+github.com/trending daily), filters for AI/LLM/agent related projects,
+and enriches topics via GitHub REST API.
 
-Usage:
-    python scripts/fetch_trending.py
-
-Env vars (optional):
-    GITHUB_TOKEN — personal access token to raise rate limit (60→5000 req/hr)
+Zero cache. Growth data (`addStars`) comes directly from GitHub Trending.
 """
-
 import json
 import os
+import re
 import sys
 import time
-from datetime import datetime, timedelta
+import urllib.request
+from datetime import datetime
 from pathlib import Path
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode, quote
+from urllib.parse import urlencode
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data.json"
-CACHE_FILE = ROOT / ".star_cache.json"
 TODAY = datetime.utcnow().strftime("%Y-%m-%d")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
-# ── Queries ─────────────────────────────────────────────
-# Each (query, qualifier) pair; qualifier appends sort/order etc.
-AI_QUERIES = [
-    # Broad keyword searches instead of restrictive topic: filters
-    ("llm agent stars:>1000", "stars"),
-    ("ai coding agent claude stars:>1000", "stars"),
-    ("open source llm stars:>5000", "stars"),
-    ("rag ai stars:>1000", "stars"),
-    ("deepseek qwen llm stars:>1000", "stars"),
-    ("ai agent framework stars:>2000", "stars"),
-    # New / fast-growing repos
-    ("ai agent created:>2025-06-01 stars:>500", "stars"),
+# ── Data sources (free, no auth needed) ─────────────────
+TRENDING_BASE = "https://raw.githubusercontent.com/isboyjc/github-trending-api/main/data"
+SOURCES = [
+    f"{TRENDING_BASE}/weekly/all.json",
+    f"{TRENDING_BASE}/monthly/all.json",
+    f"{TRENDING_BASE}/weekly/python.json",
+    f"{TRENDING_BASE}/weekly/typescript.json",
+    f"{TRENDING_BASE}/weekly/rust.json",
 ]
 
-# Repos we explicitly ignore (too generic / not AI-trending news)
-IGNORE_REPOS = {
-    "tensorflow/tensorflow",
-    "pytorch/pytorch",
-    "keras-team/keras",
-    "scikit-learn/scikit-learn",
-    "numpy/numpy",
-    "pandas-dev/pandas",
-    "microsoft/vscode",
+# ── AI relevance filters ───────────────────────────────
+AI_KEYWORDS = [
+    "llm", "agent", "ai.", "gpt", "claude", "openai", "transformer",
+    "neural", "embedding", "llama", "mistral", "diffusion", "langchain",
+    "prompt", "rag", "mcp", "copilot", "deepseek", "qwen", "vllm",
+    "chatbot", "open-source ai", "slm", "fine-tun", "inference",
+    "multi-agent", "agentic", "autogen", "text-to-", "image-gen",
+    "stable diffusion", "coder agent", "skills framework",
+]
+# Repos to always include (well-known AI projects)
+ALWAYS_INCLUDE = {
+    "ollama/ollama", "huggingface/transformers", "langgenius/dify",
+    "langchain-ai/langchain", "open-webui/open-webui", "nomic-ai/gpt4all",
+    "vllm-project/vllm", "browser-use/browser-use",
+}
+# Repos to always exclude (not AI despite keyword match)
+ALWAYS_EXCLUDE = {
+    "oven-sh/bun",  # JS runtime, not AI
 }
 
-# ── API helpers ─────────────────────────────────────────
 
-def github_api(path, params=None):
+def is_ai_relevant(name: str, desc: str) -> bool:
+    """Check if repo is AI/LLM/agent related by name + description."""
+    if name in ALWAYS_INCLUDE:
+        return True
+    if name in ALWAYS_EXCLUDE:
+        return False
+    text = (name + " " + desc).lower()
+    return any(kw in text for kw in AI_KEYWORDS)
+
+
+# ── GitHub API helpers ──────────────────────────────────
+
+def github_api(path: str, params: dict = None):
     """GET GitHub REST API. Returns (data | None, rate_remaining)."""
     url = f"https://api.github.com{path}"
     if params:
         url += "?" + urlencode(params, doseq=True)
-
     headers = {
         "Accept": "application/vnd.github.v3+json",
-        "User-Agent": "ai-trending-radar/1.0",
+        "User-Agent": "ai-trending-radar/2.0",
     }
     if TOKEN:
         headers["Authorization"] = f"Bearer {TOKEN}"
+    req = urllib.request.Request(url, headers=headers)
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                remaining = resp.headers.get("X-RateLimit-Remaining", "0")
+                data = json.loads(resp.read().decode())
+                return data, int(remaining) if remaining.isdigit() else 0
+        except urllib.error.HTTPError as e:
+            if e.code == 403:
+                reset = int((e.headers or {}).get("X-RateLimit-Reset", 0))
+                wait = max(reset - time.time(), 0) + 5
+                if 0 < wait < 120:
+                    print(f"  Rate-limited, waiting {wait:.0f}s ...", file=sys.stderr)
+                    time.sleep(wait)
+                    continue
+            if attempt < 2:
+                time.sleep(1)
+                continue
+            print(f"  HTTP {e.code} on {url}", file=sys.stderr)
+            return None, -1
+        except Exception as e:
+            if attempt < 2:
+                time.sleep(1)
+                continue
+            print(f"  Error on {url}: {e}", file=sys.stderr)
+            return None, -1
+    return None, -1
 
-    req = Request(url, headers=headers)
-    try:
-        with urlopen(req, timeout=25) as resp:
-            remaining = resp.headers.get("X-RateLimit-Remaining", "0")
-            data = json.loads(resp.read().decode())
-            return data, int(remaining) if remaining.isdigit() else 0
-    except HTTPError as e:
-        if e.code == 403:
-            reset = int((e.headers or {}).get("X-RateLimit-Reset", 0))
-            wait = max(reset - time.time(), 0) + 5
-            if wait > 0 and wait < 120:
-                print(f"  Rate-limited, waiting {wait:.0f}s ...", file=sys.stderr)
-                time.sleep(wait)
-                return github_api(path, params)
-        print(f"  HTTP {e.code} on {url}", file=sys.stderr)
-        return None, -1
-    except URLError as e:
-        print(f"  Network error: {e}", file=sys.stderr)
-        return None, -1
 
-
-def search_repos(query, sort="stars", per_page=20):
-    """Search repos, return list of repo dicts."""
-    q = f"{query} archived:false"
-    params = {"q": q, "sort": sort, "order": "desc", "per_page": per_page}
-    data, _ = github_api("/search/repositories", params)
-    if data and "items" in data:
-        return data["items"]
+def get_repo_topics(full_name: str) -> list[str]:
+    """Get topics for a repo."""
+    data, _ = github_api(f"/repos/{full_name}")
+    if data:
+        return data.get("topics", [])
     return []
-
-
-def get_repo_extra(full_name):
-    """Get community profile & recent commits for a single repo."""
-    repo, _ = github_api(f"/repos/{full_name}")
-    if not repo:
-        return {}
-    return {
-        "forks": repo.get("forks_count", 0),
-        "last_commit": (repo.get("pushed_at") or "")[:10],
-        "language": repo.get("language") or "Other",
-        "topics": repo.get("topics", []),
-    }
-
-
-def get_commit_activity(full_name):
-    """Get commit activity in past 7 days."""
-    stats, _ = github_api(f"/repos/{full_name}/stats/commit_activity")
-    if not stats or not isinstance(stats, list):
-        return 0
-    # stats[-1] is the most recent week
-    recent = stats[-1] if stats else {}
-    return recent.get("total", 0)
-
-
-# ── Cache & growth ──────────────────────────────────────
-
-def load_cache():
-    if CACHE_FILE.exists():
-        return json.loads(CACHE_FILE.read_text())
-    return {}
-
-
-def save_cache(cache):
-    CACHE_FILE.write_text(json.dumps(cache, indent=2))
-
-
-def compute_growth(repo_name, current_stars, cache):
-    """Record today's snapshot, compute 7d/30d growth from cache.
-
-    Uses the closest available data point within a reasonable window,
-    so that growth estimates appear even with partially accumulated cache.
-    """
-    now = datetime.utcnow()
-    history = cache.get(repo_name, {})
-    # Only update if not already recorded today
-    if TODAY not in history:
-        history[TODAY] = current_stars
-
-    # Find closest historical points
-    best_7d = (None, 999)
-    best_30d = (None, 999)
-    for date_str, val in history.items():
-        dt = datetime.strptime(date_str, "%Y-%m-%d")
-        delta = (now - dt).days
-        if 3 <= delta <= 14:
-            dist = abs(delta - 7)
-            if dist < best_7d[1]:
-                best_7d = (val, dist)
-        if 14 <= delta <= 50:
-            dist = abs(delta - 30)
-            if dist < best_30d[1]:
-                best_30d = (val, dist)
-
-    stars_7d = max(0, current_stars - best_7d[0]) if best_7d[0] is not None else 0
-    stars_30d = max(0, current_stars - best_30d[0]) if best_30d[0] is not None else 0
-
-    cache[repo_name] = history
-    return stars_7d, stars_30d
 
 
 # ── Trend classifier ────────────────────────────────────
 
-def classify(repo):
-    """Assign trend tag + CSS class."""
+def classify(repo: dict) -> tuple[str, str]:
     s7 = repo.get("stars_7d", 0)
-    s30 = repo.get("stars_30d", 0)
     total = repo.get("total_stars", 0)
-
-    # 周增超过 200 星就算飙升
-    if s7 >= 200:
+    # Surging: weekly growth >= 10000 (top of GitHub Trending)
+    if s7 >= 10000:
         return "🔥 本周飙升", "surging"
-    # 周增 50-199 星算稳步上升
-    if s7 >= 50:
-        return "📈 稳步上升", "rising"
-    # 总星数 < 2 万且周增 > 20 算新星
-    if total < 20000 and s7 >= 20:
-        return "🌱 活跃新星", "newstar"
-    # 总星数 > 5 万且增长不明显算经典
+    # Classic: established heavyweights (>=50k stars) with moderate growth
     if total >= 50000:
         return "⭐ 经典热门", "classic"
-    # 默认稳步上升
+    # New star: small project (<20k stars) gaining traction
+    if total < 20000 and s7 >= 100:
+        return "🌱 活跃新星", "newstar"
+    # Rising: everything else with momentum
+    if s7 >= 100:
+        return "📈 稳步上升", "rising"
     return "📈 稳步上升", "rising"
 
 
 # ── Main ────────────────────────────────────────────────
 
+def fetch_trending_json(url: str) -> list[dict]:
+    """Fetch a single trending JSON endpoint."""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "ai-trending-radar/2.0"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode())
+            return data.get("items", [])
+    except Exception as e:
+        print(f"  Failed to fetch {url}: {e}", file=sys.stderr)
+        return []
+
+
+def parse_int(s: str) -> int:
+    """Parse '16,288' -> 16288."""
+    return int(s.replace(",", "")) if s else 0
+
+
 def main():
     print(f"=== GitHub AI Trending Radar · {TODAY} ===\n")
 
-    cache = load_cache()
+    # Phase 1: Pull trending data from all sources
     seen = set()
-    repos_raw = []
+    raw_repos = []
 
-    # Phase 1: search
-    for query, sort in AI_QUERIES:
-        print(f"Searching: {query} (sort={sort})")
-        items = search_repos(query, sort=sort, per_page=12)
-        for r in items:
-            name = r["full_name"]
-            if name in seen or name in IGNORE_REPOS:
+    for url in SOURCES:
+        source_name = url.split("/")[-1].replace(".json", "")
+        print(f"Fetching: {source_name}")
+        items = fetch_trending_json(url)
+        for item in items:
+            name = item.get("title", "")
+            if not name or name in seen:
+                continue
+            if not is_ai_relevant(name, item.get("description", "")):
                 continue
             seen.add(name)
-            repos_raw.append(r)
-        time.sleep(1.2)  # be gentle with API
+            raw_repos.append(item)
+        time.sleep(0.3)
 
-    print(f"\nCollected {len(repos_raw)} unique repos.")
+    print(f"\nAI-relevant repos: {len(raw_repos)}")
 
-    # Phase 2: enrich & rank
+    # Phase 2: Enrich with GitHub API (topics, stars, language)
     enriched = []
-    for i, r in enumerate(repos_raw):
-        name = r["full_name"]
-        total = r["stargazers_count"]
-        s7, s30 = compute_growth(name, total, cache)
+    for i, r in enumerate(raw_repos):
+        name = r["title"]
+        add_stars = parse_int(r.get("addStars", "0"))
+        total_stars = parse_int(r.get("stars", "0"))
+        forks = parse_int(r.get("forks", "0"))
 
-        # Quick extra fetch for forks/language/topics/last_commit
-        extra = get_repo_extra(name)
+        topics = get_repo_topics(name)
+        if (i + 1) % 5 == 0:
+            print(f"  enriched {i+1}/{len(raw_repos)} ...")
+        time.sleep(0.5)
 
         enriched.append({
             "name": name,
             "description": (r.get("description") or "").replace("\n", " ").strip(),
-            "total_stars": total,
-            "stars_7d": s7,
-            "stars_30d": s30,
-            "forks": extra.get("forks", r.get("forks_count", 0)),
-            "last_commit": extra.get("last_commit", ""),
-            "language": extra.get("language", r.get("language") or "Other"),
-            "topics": [t for t in extra.get("topics", r.get("topics", [])) if t != "llm"][:8],
-            "url": r["html_url"],
+            "total_stars": total_stars,
+            "stars_7d": add_stars,
+            "stars_30d": 0,  # will fill from monthly data later
+            "forks": forks,
+            "last_commit": "",
+            "language": r.get("language") or "Other",
+            "topics": topics[:8],
+            "url": r.get("url", f"https://github.com/{name}"),
         })
 
-        if (i + 1) % 5 == 0:
-            print(f"  enriched {i+1}/{len(repos_raw)} ...")
+    # Phase 3: Cross-reference with monthly data for 30d growth
+    monthly_items = fetch_trending_json(f"{TRENDING_BASE}/monthly/all.json")
+    monthly_map = {item["title"]: parse_int(item.get("addStars", "0")) for item in monthly_items}
+
+    for repo in enriched:
+        if repo["name"] in monthly_map:
+            repo["stars_30d"] = monthly_map[repo["name"]]
 
     # Assign tags
     for repo in enriched:
@@ -247,18 +215,17 @@ def main():
         repo["tag"] = tag
         repo["tag_class"] = tag_class
 
-    # Sort: total stars desc
-    enriched.sort(key=lambda x: x["total_stars"], reverse=True)
+    # Sort: weekly growth desc
+    enriched.sort(key=lambda x: x["stars_7d"], reverse=True)
 
-    # Keep top 18-20, ensuring diversity
+    # Keep top 20
     final = enriched[:20]
 
     if not final:
-        print("\nERROR: No repos collected. Possible API rate limit or network issue.", file=sys.stderr)
+        print("\nERROR: No AI repos found in trending data.", file=sys.stderr)
         print("Keeping existing data.json unchanged.", file=sys.stderr)
         sys.exit(1)
 
-    # Stats
     classic = sum(1 for r in final if r["tag_class"] == "classic")
     surging = sum(1 for r in final if r["tag_class"] == "surging")
     rising = sum(1 for r in final if r["tag_class"] == "rising")
@@ -267,20 +234,12 @@ def main():
     print(f"\nFinal: {len(final)} projects")
     print(f"  ⭐ 经典热门: {classic}  |  🔥 本周飙升: {surging}  |  📈 稳步上升: {rising}  |  🌱 活跃新星: {newstar}")
 
-    # Write
     DATA_FILE.write_text(json.dumps(final, ensure_ascii=False, indent=2) + "\n")
     print(f"\nWritten: {DATA_FILE}")
 
-    save_cache(cache)
-
-    # Summary
-    print("\n── Top by total stars ──")
-    for r in final[:3]:
-        print(f"  {r['name']}  ★{r['total_stars']:,}  (+{r['stars_7d']:,}w / +{r['stars_30d']:,}m)")
-    print("\n── Top by 7d growth ──")
-    by_growth = sorted(final, key=lambda x: x["stars_7d"], reverse=True)
-    for r in by_growth[:3]:
-        print(f"  {r['name']}  +{r['stars_7d']:,} ⭐ this week")
+    print("\n── Top by weekly growth ──")
+    for r in final[:5]:
+        print(f"  {r['name']}  ★{r['total_stars']:,}  +{r['stars_7d']:,}/wk  +{r['stars_30d']:,}/mo")
 
 
 if __name__ == "__main__":
