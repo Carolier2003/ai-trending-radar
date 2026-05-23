@@ -322,6 +322,11 @@ function buildLangOptions(){
   const sel=document.getElementById('filterLang');
   langs.forEach(l=>{const o=document.createElement('option');o.value=l;o.textContent=l;sel.appendChild(o)});
 }
+function buildTagOptions(){
+  const tags=[...new Set(projects.map(p=>p.tag).filter(Boolean))];
+  const sel=document.getElementById('filterTag');
+  tags.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o)});
+}
 
 function createCard(p){
   const g7=p.stars_7d||0;
@@ -390,6 +395,7 @@ function filterProjects(){
 function render(){
   updateStats();
   buildLangOptions();
+  buildTagOptions();
   filterProjects();
 }
 
