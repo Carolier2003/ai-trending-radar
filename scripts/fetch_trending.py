@@ -23,9 +23,8 @@ TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
 # ── Data sources (free, no auth needed) ─────────────────
 TRENDING_BASE = "https://raw.githubusercontent.com/isboyjc/github-trending-api/main/data"
-SOURCES = [
+WEEKLY_SOURCES = [
     f"{TRENDING_BASE}/weekly/all.json",
-    f"{TRENDING_BASE}/monthly/all.json",
     f"{TRENDING_BASE}/weekly/python.json",
     f"{TRENDING_BASE}/weekly/typescript.json",
     f"{TRENDING_BASE}/weekly/rust.json",
@@ -166,8 +165,8 @@ def main():
     seen = set()
     raw_repos = []
 
-    for url in SOURCES:
-        source_name = url.split("/")[-1].replace(".json", "")
+    for url in WEEKLY_SOURCES:
+        source_name = "/".join(url.removesuffix(".json").split("/")[-2:])
         print(f"Fetching: {source_name}")
         items = fetch_trending_json(url)
         for item in items:
