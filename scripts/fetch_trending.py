@@ -201,9 +201,26 @@ def main():
             "url": r.get("url", f"https://github.com/{name}"),
         })
 
-    # Phase 3: Cross-reference with monthly data for 30d growth
-    monthly_items = fetch_trending_json(f"{TRENDING_BASE}/monthly/all.json")
-    monthly_map = {item["title"]: parse_int(item.get("addStars", "0")) for item in monthly_items}
+    # Phase 3: Build monthly growth map from all available monthly sources
+    MONTHLY_SOURCES = [
+        f"{TRENDING_BASE}/monthly/all.json",
+        f"{TRENDING_BASE}/monthly/python.json",
+        f"{TRENDING_BASE}/monthly/typescript.json",
+        f"{TRENDING_BASE}/monthly/rust.json",
+        f"{TRENDING_BASE}/monthly/javascript.json",
+        f"{TRENDING_BASE}/monthly/go.json",
+        f"{TRENDING_BASE}/monthly/java.json",
+        f"{TRENDING_BASE}/monthly/c++.json",
+        f"{TRENDING_BASE}/monthly/swift.json",
+    ]
+    monthly_map = {}
+    for url in MONTHLY_SOURCES:
+        for item in fetch_trending_json(url):
+            name = item.get("title", "")
+            if name and name not in monthly_map:
+                monthly_map[name] = parse_int(item.get("addStars", "0"))
+
+    print(f"Monthly growth data available for: {len(monthly_map)} repos")
 
     for repo in enriched:
         if repo["name"] in monthly_map:
