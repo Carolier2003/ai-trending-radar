@@ -294,6 +294,33 @@ def main():
     DATA_FILE.write_text(json.dumps(final, ensure_ascii=False, indent=2) + "\n")
     print(f"\nWritten: {DATA_FILE}")
 
+    # ── History persistence ────────────────────────────────
+    HISTORY_DIR = ROOT / "history"
+    HISTORY_INDEX = HISTORY_DIR / "index.json"
+
+    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Write today's snapshot
+    today_file = HISTORY_DIR / f"{TODAY}.json"
+    today_file.write_text(json.dumps(final, ensure_ascii=False, indent=2) + "\n")
+    print(f"\nHistory saved: history/{TODAY}.json")
+
+    # Update index.json
+    index = []
+    if HISTORY_INDEX.exists():
+        try:
+            index = json.loads(HISTORY_INDEX.read_text())
+        except (json.JSONDecodeError, FileNotFoundError):
+            print("  index.json corrupted, rebuilding")
+            index = []
+    if TODAY not in index:
+        index.append(TODAY)
+        index = sorted(set(index), reverse=True)
+        HISTORY_INDEX.write_text(json.dumps(index, ensure_ascii=False) + "\n")
+        print(f"  index.json updated: {len(index)} snapshots available")
+    else:
+        print(f"  {TODAY} already in index.json (re-run), keeping existing")
+
     print("\n── Top by weekly growth ──")
     for r in final[:5]:
         print(f"  {r['name']}  ★{r['total_stars']:,}  +{r['stars_7d']:,}/wk  +{r['stars_30d']:,}/mo")

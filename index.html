@@ -303,6 +303,9 @@ body{
   <select class="ctrl-select" id="filterTag" onchange="filterProjects()">
     <option value="">全部趋势标签</option>
   </select>
+  <select class="ctrl-select" id="dateSelect" onchange="loadDate(this.value)">
+    <option value="today">今日</option>
+  </select>
   <select class="ctrl-select" id="filterCategory" onchange="filterProjects()">
     <option value="">全部类型</option>
   </select>
@@ -319,6 +322,8 @@ body{
 
 <script>
 let projects = [];
+let currentDate = 'today';
+const dateCache = { 'today': null };
 
 function formatNum(n){if(n>=1000)return (n/1000).toFixed(1)+'k';return n.toString()}
 
@@ -347,18 +352,21 @@ function setDateBadge(){
 }
 
 function buildLangOptions(){
-  const langs=[...new Set(projects.map(p=>p.language).filter(Boolean))].sort();
   const sel=document.getElementById('filterLang');
+  while(sel.options.length>1) sel.remove(1);
+  const langs=[...new Set(projects.map(p=>p.language).filter(Boolean))].sort();
   langs.forEach(l=>{const o=document.createElement('option');o.value=l;o.textContent=l;sel.appendChild(o)});
 }
 function buildTagOptions(){
-  const tags=[...new Set(projects.map(p=>p.tag).filter(Boolean))];
   const sel=document.getElementById('filterTag');
+  while(sel.options.length>1) sel.remove(1);
+  const tags=[...new Set(projects.map(p=>p.tag).filter(Boolean))];
   tags.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o)});
 }
 function buildCategoryOptions(){
-  const categories=[...new Set(projects.map(p=>p.category).filter(Boolean))];
   const sel=document.getElementById('filterCategory');
+  while(sel.options.length>1) sel.remove(1);
+  const categories=[...new Set(projects.map(p=>p.category).filter(Boolean))];
   categories.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
 }
 
@@ -441,19 +449,76 @@ function render(){
   filterProjects();
 }
 
-// Load data.json
-fetch('data.json?'+Date.now())
-  .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
-  .then(data=>{
+async function loadHistoryIndex(){
+  try {
+    const resp=await fetch('history/index.json');
+    if(!resp.ok) return;
+    const dates=await resp.json();
+    if(!Array.isArray(dates)||dates.length===0) return;
+    const sel=document.getElementById('dateSelect');
+    dates.forEach(date=>{const o=document.createElement('option');o.value=date;o.textContent=date;sel.appendChild(o)});
+  }catch(e){console.log('History index not available:',e.message)}
+}
+
+async function loadDate(dateValue){
+  if(dateValue===currentDate&&dateCache[dateValue]) return;
+  currentDate=dateValue;
+  document.getElementById('projectGrid').innerHTML='<div class="loading">加载数据中 ...</div>';
+  if(dateCache[dateValue]){
+    projects=dateCache[dateValue];
+    updateDateBadge(dateValue);
+    resetFilters();
+    render();
+    return;
+  }
+  const url=dateValue==='today'?'data.json?'+Date.now():'history/'+dateValue+'.json';
+  try {
+    const resp=await fetch(url);
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const data=await resp.json();
+    dateCache[dateValue]=data;
+    projects=data;
+    updateDateBadge(dateValue);
+    resetFilters();
+    render();
+  }catch(e){
+    document.getElementById('projectGrid').innerHTML=
+      '<div class="error-state">无法加载 '+dateValue+' 的历史数据。</div>';
+    if(dateValue!=='today') document.getElementById('dateSelect').value='today';
+  }
+}
+
+function updateDateBadge(dateValue){
+  if(dateValue==='today'){setDateBadge();return}
+  const parts=dateValue.split('-');
+  if(parts.length===3) document.getElementById('dateBadge').textContent=parts[0]+' · '+parts[1]+' · '+parts[2];
+}
+
+function resetFilters(){
+  document.getElementById('searchInput').value='';
+  document.getElementById('sortSelect').value='default';
+  document.getElementById('filterLang').value='';
+  document.getElementById('filterTag').value='';
+  document.getElementById('filterCategory').value='';
+}
+
+async function init(){
+  setDateBadge();
+  await loadHistoryIndex();
+  try{
+    const resp=await fetch('data.json?'+Date.now());
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const data=await resp.json();
+    dateCache['today']=data;
     projects=data;
     render();
-  })
-  .catch(()=>{
+  }catch(e){
     document.getElementById('projectGrid').innerHTML=
       '<div class="error-state">数据加载失败。请稍后刷新，或确认 data.json 已生成。</div>';
-  });
+  }
+}
 
-setDateBadge();
+init();
 </script>
 </body>
 </html>

@@ -41,6 +41,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/fetch_trending.py
 
+      - name: Commit and push history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json history/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update trending data [skip ci]"
+            git push
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
